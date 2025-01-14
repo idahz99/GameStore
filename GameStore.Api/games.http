@@ -1,25 +1,25 @@
 GET http://localhost:5068/games
 
 ###
-GET http://localhost:5068/games/5
+GET http://localhost:5068/games/2
 
 ###
 POST http://localhost:5068/games
 Content-Type: application/json
 
 {
-  "name": "Game 1",
+  "name": "PPG",
   "genre": "Action",
-  "price": 100,
+  "price": 99,
   "releaseDate": "2021-01-01"
 }
 
 ###
-PUT http://localhost:5068/games/6
+PUT http://localhost:5068/games/1
 Content-Type: application/json
 
 {
-    "name": "Game 1 replace 1",
+    "name": "Crimson",
     "genre": "Action",
     "price": 80,
     "releaseDate": "2021-01-01"
