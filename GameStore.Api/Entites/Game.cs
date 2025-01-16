@@ -6,7 +6,7 @@ public class Game
 {
 public int Id { get; set; }
 
-public required string Name { get; set; }
+public required string Name { get; set; } //required is a new feature in C# 10
 
 public int GenreId { get; set; }
 

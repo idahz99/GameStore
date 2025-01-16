@@ -69,6 +69,31 @@ public static class GamesEndpoints
             return Results.NoContent();
         });
 
+        group.MapGet("/search/{search}", async (string search, GameStoreContext dbContext) =>{
+            var games = await dbContext.Games //DbContext connects to game table
+            .Include(game => game.Genre) //Include the genre
+            .Where(game => game.Name.Contains(search))
+            .AsNoTracking()
+            .ToListAsync();
+
+            //Map the filtered games to GameDto
+            //Game? game = await dbContext.Games.FindAsync(id);
+
+           if (!games.Any())
+    {
+        return Results.NotFound("No games found matching the search criteria.");
+    }
+
+    // Map the games to GameDto using the constructor
+            var gameDtos = games.Select(game => new GameDto(game)).ToList();
+
+    // Return the DTOs
+            return Results.Ok(gameDtos);
+           
+
+
+        });
+
 
         return group;
 
