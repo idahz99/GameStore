@@ -13,7 +13,7 @@ public static class GamesEndpoints
 
     public static RouteGroupBuilder MapGamesEndpoint(this WebApplication app)
     {
-        var group = app.MapGroup("games").WithParameterValidation();
+        RouteGroupBuilder group = app.MapGroup("games").WithParameterValidation();
         //GET all games//
         group.MapGet("/", async (GameStoreContext dbContext) =>
         
@@ -48,7 +48,7 @@ public static class GamesEndpoints
         group.MapPut("/{id}", async (int id, UpdateGameDto updateGame, GameStoreContext dbContext) =>
 
         {
-            var existingGame = await dbContext.Games.FindAsync(id);
+            Game? existingGame = await dbContext.Games.FindAsync(id);
             if (existingGame is null)
             {
                 return Results.NotFound();
@@ -67,6 +67,31 @@ public static class GamesEndpoints
             await dbContext.Games.Where(game => game.Id == id).ExecuteDeleteAsync();
 
             return Results.NoContent();
+        });
+
+        group.MapGet("/search/{search}", async (string search, GameStoreContext dbContext) =>{
+            List<Game> games = await dbContext.Games //DbContext connects to game table
+            .Include(game => game.Genre) //Include the genre
+            .Where(game => game.Name.Contains(search))
+            .AsNoTracking()
+            .ToListAsync();
+
+            //Map the filtered games to GameDto
+            //Game? game = await dbContext.Games.FindAsync(id);
+
+           if (!games.Any())
+    {
+        return Results.NotFound("No games found matching the search criteria.");
+    }
+
+            // Map the games to GameDto using the constructor
+            List<GameDto> gameDtos = games.Select(game => new GameDto(game)).ToList();
+
+    // Return the DTOs
+            return Results.Ok(gameDtos);
+           
+
+
         });
 
 

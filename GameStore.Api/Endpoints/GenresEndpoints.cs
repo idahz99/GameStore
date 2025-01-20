@@ -10,7 +10,7 @@ public static class GenresEndpoint
 public static RouteGroupBuilder MapGenresEndpoints(this WebApplication app)
 {
 
-var group = app.MapGroup("genres");
+    RouteGroupBuilder group = app.MapGroup("genres");
 
 group.MapGet("/", async (GameStoreContext dbContext) =>
     await dbContext.Genrs
