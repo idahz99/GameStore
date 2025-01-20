@@ -28,5 +28,4 @@ Content-Type: application/json
 ###
 DELETE  http://localhost:5068/games/6
 
-###
-GET http://localhost:5068/games/search/bar
+
