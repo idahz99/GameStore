@@ -6,8 +6,8 @@ namespace GameStore.Api.Data;
 public static class DataExtension
 {
 public static async Task MigrateDbAsync(this WebApplication app){
-using IServiceScope scope = app.Services.CreateScope();
-GameStoreContext dbContext = scope.ServiceProvider.GetRequiredService<GameStoreContext>();
+using var scope = app.Services.CreateScope();
+var dbContext = scope.ServiceProvider.GetRequiredService<GameStoreContext>();
 await dbContext.Database.MigrateAsync();
 }
 }

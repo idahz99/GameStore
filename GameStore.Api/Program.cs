@@ -2,10 +2,10 @@ using GameStore.Api.Data;
 using GameStore.Api.Dtos;
 using GameStore.Api.Endpoints;
 
-WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
-string? connString = builder.Configuration.GetConnectionString("GameStore");
+var builder = WebApplication.CreateBuilder(args);
+var connString = builder.Configuration.GetConnectionString("GameStore");
 builder.Services.AddSqlite<GameStoreContext>(connString);
-WebApplication app = builder.Build();
+var app = builder.Build();
 
 app.MapGamesEndpoint();
 app.MapGenresEndpoints();
